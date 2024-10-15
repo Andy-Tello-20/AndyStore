@@ -1,14 +1,13 @@
-import TicketModel from "./models/ticket.model.js";
 import CartModel from "./models/cart.model.js";
 import ProductsModel from "./models/products.model.js";
-import { logger } from "../utils.js";
+import TicketModel from "./models/ticket.model.js";
 
-export default class TicketMongoDAO {
+export default class paymentDao {
 
-    static async createTicket(cartId, email) {
+    static updateCart = async (cid,email) => {
         try {
-            const cart = await CartModel.findById(cartId).populate('products.product');
-
+            const cart = await CartModel.findById(cid).populate('products.product');
+            console.log('se encontro el carrito paymentDAO: ',cart)
 
             if (!cart) {
                 throw new Error('Cart not found');
@@ -42,23 +41,6 @@ export default class TicketMongoDAO {
             console.log('withStock es: ', withStock)
 
 
-            // if (failedProducts.length > 0) {
-
-
-            //     //! Filtra los productos que no pudieron comprarse y actualiza el carrito con los productos con insuficiente stock
-            //     cart.products = cart.products.filter(item => failedProducts.includes(item.product._id));
-            //     await cart.save();
-
-            //     // logger.debug(`cart.products (carrito pendiente de stock) es: ${cart.products}`)
-
-            //     // logger.debug(`failedProducts ( productos con insuficiente stock )es: ${failedProducts}`)
-
-
-            //     //? Devuelve los IDs de los productos que no pudieron procesarse
-            //     return { withStock };
-            // }
-
-
             const productsToStore = withStock.map(item => ({
                 product: item.product._id,
                 title: item.product.title,
@@ -73,44 +55,21 @@ export default class TicketMongoDAO {
                 products: productsToStore  // Agrega los productos transformados al ticket
             });
 
-            // const ticket = await TicketModel.create({
-            //     amount: calcularTotalCompra(withStock),
-            //     purchaser: email
-            // })
-
-            logger.debug(`ticket es: ${ticket}`)
-
-
-
-
-            //! actualizar carrito con productos sin stock existente suficiente
-            cart.products = cart.products.filter(item => failedProducts.includes(item.product._id));
-            await cart.save();
-
-            return ticket
-        } catch (err) {
-            logger.error(`${err}`)
-            throw err;
-        }
+             //! actualizar carrito con productos sin stock existente suficiente
+             cart.products = cart.products.filter(item => failedProducts.includes(item.product._id));
+             await cart.save();
+ 
+             return ticket
+         } catch (err) {
+             logger.error(`${err}`)
+             throw err;
+         }
     }
 
-    static async getTicket(email) {
 
-        try {
-
-            const ticket = await TicketModel.findOne({ purchaser: email }).sort({ createdAt: -1 }).exec()
-
-            console.log('ticketDao es: ', ticket)
-
-            return ticket
-
-        } catch (error) {
-            logger.error(`${err}`)
-            throw err;
-        }
-    }
 
 }
+
 
 function calcularTotalCompra(products) {
     let total = 0;

@@ -3,6 +3,7 @@ import { MercadoPagoConfig, Preference } from 'mercadopago'
 import config from "../config/config.js"
 
 
+
 const mpTOKEN= config.mpToken
 
 // Agrega credenciales
@@ -34,7 +35,7 @@ export default class mpController {
                         body: {
                             items,
                             back_urls: {
-                                success: "http://localhost:3000/",
+                                success: "http://localhost:8080/api/payment-success",
                                 failure: "http://localhost:3000/",
                                 pending: "http://localhost:3000/"
                             },

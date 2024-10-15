@@ -11,6 +11,7 @@ import mpRouter from './routers/api/mercadoPago.router.js'
 import productRouter from './routers/api/products.router.js'
 import ticketRouter from './routers/api/ticket.router.js'
 import cartRouter from './routers/api/carts.router.js'
+import paymentRouter from './routers/api/payment.router.js'
 import { __dirname, logger} from './utils.js';
 import { init as initPassport } from './config/passport.config.js';
 import cors from 'cors'
@@ -60,7 +61,16 @@ app.use(passport.initialize());
 // app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/api', usersRouter, sessionsRouter,cartRouter, productRouter,ticketRouter,mpRouter);
+
+app.use('/api', 
+  usersRouter, 
+  sessionsRouter,
+  cartRouter,
+   productRouter,
+   ticketRouter,
+   mpRouter,
+   paymentRouter
+  );
 
 app.use((error, req, res, next) => {
   const message = `Ah ocurrido un error desconocido 😨: ${error.message}`;
