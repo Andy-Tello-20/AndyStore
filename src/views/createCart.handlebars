@@ -1,0 +1,40 @@
+<article>
+    <button id="fetchButton">Obtener respuesta</button>
+<div id="responseContainer"></div>
+
+
+</article>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const fetchButton = document.getElementById('fetchButton');
+  const responseContainer = document.getElementById('responseContainer');
+
+  fetchButton.addEventListener('click', async () => {
+    try {
+      const response = await fetch('/api/carts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // Puedes incluir el cuerpo de la solicitud aquí si es necesario
+        // body: JSON.stringify({ key: 'value' })
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al obtener la respuesta');
+      }
+
+       
+
+      const jsonResponse = await response.json();
+      console.log('jsonRespone es: ', jsonResponse._id)
+      responseContainer.textContent = JSON.stringify(jsonResponse, null, 2);
+    } catch (error) {
+      console.error('Error:', error);
+      responseContainer.textContent = 'Error al obtener la respuesta';
+    }
+  });
+});
+
+</script>

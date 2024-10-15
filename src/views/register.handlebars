@@ -1,0 +1,66 @@
+<article>
+  <form>
+    <header>
+      <h1>Registro 😁</h1>
+    </header>
+    <input type="text" name="first_name" placeholder="Nombre" required>
+    <input type="text" name="last_name" placeholder="Apellido" required>
+    <input type="email" name="email" placeholder="Correo" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <input type="number" name="age" placeholder="Edad">
+    <footer>
+      <button id="fetchButton" type="button">Obtener respuesta</button>
+    </footer>
+    <a href="/login">Quiero iniciar sesión</a>
+  </form>
+</article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const fetchButton = document.getElementById('fetchButton');
+
+    fetchButton.addEventListener('click', async (event) => {
+      event.preventDefault(); // Prevenir el comportamiento por defecto del botón
+
+      try {
+        const response = await fetch('/api/carts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener la respuesta');
+        }
+
+        const jsonResponse = await response.json();
+        console.log('jsonResponse es: ', jsonResponse);
+
+        const registerResponse = await fetch('/api/sessions/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            cartId: jsonResponse._id,
+            first_name: document.querySelector('input[name="first_name"]').value,
+            last_name: document.querySelector('input[name="last_name"]').value,
+            email: document.querySelector('input[name="email"]').value,
+            password: document.querySelector('input[name="password"]').value,
+            age: document.querySelector('input[name="age"]').value
+          })
+        });
+
+    
+
+        window.location.href = '/login';
+
+
+      } catch (error) {
+        console.error('Error:', error);
+        // Aquí puedes manejar el error como lo desees
+      }
+    });
+  });
+</script>

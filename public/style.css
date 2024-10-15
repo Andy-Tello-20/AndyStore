@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+.contenedor-lista-{
+    padding: 2rem;
+}
+.contenedor-producto, .titulos {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    align-items: start;
+    text-align: center;
+    justify-items: center;
+
+}
+
+.contenedor-cart, .titulos-cart{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    text-align: center;
+    justify-items: center;
+}
+
+
+.contenedor-producto h2, .contenedor-cart h2{
+    font-size: 1rem;
+}
+
+
+
+.titulos p , .titulos-cart p {
+    border: solid;
+    height: 100%;
+    width: 100%;
+}
+
+.contenedor-items{
+    border: solid;
+}
+
+.create form{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: start;
+    text-align: center;
+    justify-items: center;
+}
+
+.btn-agregar-carrito{
+    padding: 0;
+    width: 85%;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* .container-width{
+    width: auto !important;
+} */
+
+hr {
+    border: none;
+    border-top: 2px dashed #333;
+    margin: 20px 0;
+}
+.ticket {
+    background-color: #fff;
+    /* border: 2px solid #333; */
+    padding: 20px;
+    width: 500px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.ticket h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.ticket p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.ticket .products {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.ticket .products h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.ticket table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ticket table th,
+.ticket table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.ticket table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.ticket .qr-code {
+    margin-top: 20px;
+}
+
+.ticket .qr-code img {
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,137 @@
+<div class="contenedor-lista- pico-background-violet-100">
+
+  <h2>Tu carrito</h2>
+{{#if cartList.length}}
+  <div class="titulos-cart">
+  
+    <p>TITLE</p>
+    <p>description</p>
+    <p>Precio</p>
+
+   
+    <p>acciones</p>
+  </div>
+  {{/if}}
+
+  <div class="contenedor-items">
+  {{#if cartList.length}}
+    {{#each cartList}}
+    <div class="contenedor-cart">
+      
+      <h2>{{title}}</h2>
+      <span>{{description}}</span>
+      <p>$ {{price}}</p>
+     
+
+      <!-- Botón "Agregar al carrito" con atributo data-idProducto -->
+      <button class="btn-agregar-carrito" data-cartId="{{../cartId}}" data-idProducto="{{_id}}">Eliminar</button>
+    </div>
+    {{/each}}
+  {{else}}
+    <h2>No hay productos en el carrito.</h2>
+  {{/if}}
+</div>
+
+
+ <article>
+  {{#if cartList.length}}
+    <button id="purchase" data-cartId="{{cartId}}">Comprar carrito</button>
+  {{else}}
+    <a href="/profile" class="btn-redirect" role="button">Explorar productos</a>
+  {{/if}}
+
+  <a href="/api/ticket" class="btn-redirect" role="button">Ver ultima compra</a>
+</article>
+</div>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const fetchButton = document.getElementById('purchase');
+    const cartId = fetchButton.getAttribute('data-cartId')
+
+
+
+    fetchButton.addEventListener('click', async () => {
+
+      try {
+        const response = await fetch(`/api/${cartId}/purchase`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener la respuesta');
+        }
+
+        const jsonResponse = await response.json();
+       alert('Compra realizada con exito: ', jsonResponse)
+        location.reload()
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+
+
+
+
+
+
+
+
+
+  });
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona todos los botones con la clase .btn-agregar-carrito
+    const botonesAgregarCarrito = document.querySelectorAll('.btn-agregar-carrito');
+
+    console.log(' botonesAgregarCarrito es: ', botonesAgregarCarrito) 
+
+    // Agrega un manejador de eventos a cada botón
+
+
+
+    botonesAgregarCarrito.forEach((button) => {
+      button.addEventListener('click', async (event) => {
+        // Evitar el comportamiento por defecto del botón
+        event.preventDefault();
+
+        const cartId = button.getAttribute('data-cartId');
+        console.log(' capture  cartId es: ', cartId)
+        const productId = button.getAttribute('data-idProducto');
+        console.log(' capture  productId es: ', productId)
+        const url = `api/carts/${cartId}/deleteProduct/${productId}`;
+
+        console.log('url es ', url)
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+
+
+          alert('Producto eliminado correctamente')
+
+         
+          location.reload()
+         
+
+          // window.location.href = '/profile';
+
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+    });
+  });
+
+</script>
